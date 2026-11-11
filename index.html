@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Júlia · 1 aninho · Confirme sua presença</title>
+<meta name="description" content="Aniversário de 1 aninho da Júlia — 16/01/2027, 13h00. Confirme sua presença.">
+<meta property="og:title" content="Júlia · 1 aninho 🎉">
+<meta property="og:description" content="Sábado, 16/01/2027 às 13h00 · Confirme sua presença!">
+<meta property="og:image" content="julia.jpg">
+<meta name="theme-color" content="#f6ece0">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%8E%89%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Josefin+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+  /* ⬇️ Paste your Apps Script Web app URL in the script at the bottom (SCRIPT_URL). */
+  :root {
+    --cream: #f6ece0;
+    --cream-2: #fbf5ee;
+    --orange: #f47a20;
+    --orange-dark: #d9620d;
+    --pink: #ee5fae;
+    --pink-soft: #f9c9df;
+    --pink-wave: #f08a8a;
+    --blue: #6aa8d8;
+    --green: #8fd48a;
+    --ink: #3d3530;
+    --ink-soft: #6f655d;
+    --radius: 18px;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; }
+  body {
+    background: var(--cream);
+    color: var(--ink);
+    font-family: "Josefin Sans", system-ui, sans-serif;
+    font-weight: 400;
+    -webkit-font-smoothing: antialiased;
+    min-height: 100vh;
+  }
+
+  .page {
+    position: relative;
+    max-width: 560px;
+    margin: 0 auto;
+    padding: 0 30px 0;
+    overflow: hidden;
+    min-height: 100vh;
+  }
+  /* Wavy side ribbons, like the invite's border */
+  .page::before, .page::after {
+    content: "";
+    position: absolute;
+    top: 120px; bottom: 0;
+    width: 22px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='22' height='40' viewBox='0 0 22 40'%3E%3Cpath d='M11 0 C 19 5, 19 15, 11 20 C 3 25, 3 35, 11 40' fill='none' stroke='%23f08a8a' stroke-width='2.2' stroke-linecap='round' opacity='.75'/%3E%3C/svg%3E");
+    background-repeat: repeat-y;
+    pointer-events: none;
+  }
+  .page::before { left: 4px; }
+  .page::after { right: 4px; }
+
+  /* ---------- Top garland ---------- */
+  .garland {
+    display: block;
+    width: calc(100% + 60px);
+    margin: 0 -30px;
+    height: auto;
+  }
+
+  /* ---------- Hero ---------- */
+  .hero { text-align: center; margin-top: -18px; position: relative; z-index: 1; }
+  .name {
+    font-family: "Fredoka", sans-serif;
+    font-weight: 700;
+    color: var(--orange);
+    font-size: clamp(72px, 22vw, 116px);
+    line-height: .95;
+    letter-spacing: -1px;
+    margin: 0;
+  }
+  .age {
+    font-family: "Fredoka", sans-serif;
+    font-weight: 600;
+    color: var(--pink);
+    letter-spacing: .32em;
+    font-size: clamp(20px, 5.4vw, 28px);
+    margin: 6px 0 0;
+    padding-left: .32em;
+  }
+
+  .details {
+    list-style: none;
+    padding: 0;
+    margin: 28px auto 0;
+    max-width: 400px;
+    display: grid;
+    gap: 14px;
+    font-weight: 300;
+    font-size: 19px;
+    letter-spacing: .06em;
+    line-height: 1.35;
+    text-align: left;
+  }
+  .details li { display: flex; gap: 14px; align-items: flex-start; }
+  .details svg { flex: 0 0 30px; width: 30px; height: 30px; margin-top: -3px; }
+  .details strong { font-weight: 600; letter-spacing: .04em; }
+  .details .when { display: flex; gap: 22px; flex-wrap: wrap; }
+  .details .when > span { display: flex; gap: 10px; align-items: flex-start; }
+
+  .quick-links {
+    display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;
+    margin: 22px 0 0;
+  }
+  .chip {
+    font: 600 14px/1 "Josefin Sans", sans-serif;
+    letter-spacing: .04em;
+    color: var(--ink);
+    text-decoration: none;
+    background: var(--cream-2);
+    border: 1.5px solid var(--pink-soft);
+    padding: 10px 14px 8px;
+    border-radius: 999px;
+    display: inline-flex; gap: 6px; align-items: center;
+    transition: border-color .15s, transform .15s;
+  }
+  .chip:hover { border-color: var(--pink); transform: translateY(-1px); }
+
+  /* ---------- Form card ---------- */
+  .card {
+    position: relative;
+    z-index: 1;
+    margin: 30px 0 0;
+    background: var(--cream-2);
+    border-radius: var(--radius);
+    padding: 26px 22px 24px;
+    box-shadow: 0 1px 0 rgba(0,0,0,.03), 0 14px 34px -18px rgba(180, 90, 60, .35);
+    border: 1.5px solid #f3dccd;
+  }
+  .card h2 {
+    font-family: "Fredoka", sans-serif;
+    font-weight: 600;
+    color: var(--orange);
+    font-size: 26px;
+    margin: 0 0 4px;
+    text-align: center;
+  }
+  .card .sub {
+    text-align: center; color: var(--ink-soft); margin: 0 0 22px;
+    font-size: 16px; font-weight: 300; letter-spacing: .03em;
+  }
+
+  .field { margin-bottom: 18px; }
+  .field > label, .legend {
+    display: block;
+    font-weight: 600;
+    font-size: 15px;
+    letter-spacing: .05em;
+    margin-bottom: 8px;
+  }
+  .optional { font-weight: 300; color: var(--ink-soft); }
+  input[type=text], input[type=tel], textarea {
+    width: 100%;
+    font: 400 17px/1.3 "Josefin Sans", sans-serif;
+    color: var(--ink);
+    background: #fff;
+    border: 1.5px solid #ead8cb;
+    border-radius: 12px;
+    padding: 13px 14px 11px;
+    outline: none;
+    transition: border-color .15s, box-shadow .15s;
+  }
+  textarea { resize: vertical; min-height: 84px; }
+  input:focus, textarea:focus {
+    border-color: var(--pink);
+    box-shadow: 0 0 0 4px rgba(238, 95, 174, .14);
+  }
+
+  .choice { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .choice input { position: absolute; opacity: 0; pointer-events: none; }
+  .choice label {
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+    text-align: center;
+    padding: 14px 10px 12px;
+    border-radius: 12px;
+    border: 1.5px solid #ead8cb;
+    background: #fff;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 15px;
+    letter-spacing: .02em;
+    transition: all .15s;
+    user-select: none;
+  }
+  .choice input:focus-visible + label { box-shadow: 0 0 0 4px rgba(238, 95, 174, .2); }
+  .choice input:checked + label.yes { background: #fff1e6; border-color: var(--orange); color: var(--orange-dark); }
+  .choice input:checked + label.no { background: #f6eef3; border-color: #c993b0; color: #8e4d6f; }
+
+  .counts { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .stepper {
+    display: flex; align-items: center; justify-content: space-between;
+    background: #fff;
+    border: 1.5px solid #ead8cb;
+    border-radius: 12px;
+    padding: 6px;
+  }
+  .stepper button {
+    width: 38px; height: 38px;
+    border-radius: 10px;
+    border: 0;
+    background: #fdeee4;
+    color: var(--orange-dark);
+    font: 600 22px/1 "Fredoka", sans-serif;
+    cursor: pointer;
+    display: grid; place-items: center;
+  }
+  .stepper button:disabled { opacity: .35; cursor: default; }
+  .stepper output { font: 600 22px/1 "Fredoka", sans-serif; min-width: 2ch; text-align: center; }
+  .small-label { display:block; font-size: 13px; color: var(--ink-soft); margin: 0 0 6px 2px; letter-spacing: .04em; }
+
+  .hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+
+  .submit {
+    width: 100%;
+    margin-top: 6px;
+    border: 0;
+    border-radius: 14px;
+    padding: 17px 18px 15px;
+    font: 600 20px/1 "Fredoka", sans-serif;
+    letter-spacing: .02em;
+    color: #fff;
+    background: var(--orange);
+    box-shadow: 0 6px 0 var(--orange-dark);
+    cursor: pointer;
+    transition: transform .1s, box-shadow .1s, background .15s;
+  }
+  .submit:hover { background: #f78a37; }
+  .submit:active { transform: translateY(4px); box-shadow: 0 2px 0 var(--orange-dark); }
+  .submit[disabled] { opacity: .7; cursor: progress; }
+
+  .error {
+    display: none;
+    margin: 14px 0 0;
+    padding: 12px 14px 10px;
+    border-radius: 12px;
+    background: #fdecec;
+    color: #a33a3a;
+    font-size: 15px;
+    line-height: 1.4;
+  }
+  .error.show { display: block; }
+
+  /* Thank-you state */
+  .thanks { display: none; text-align: center; padding: 8px 4px 4px; }
+  .thanks.show { display: block; animation: pop .35s ease-out; }
+  .thanks .big { font-size: 54px; line-height: 1; margin-bottom: 8px; }
+  .thanks h2 { margin-bottom: 8px; }
+  .thanks p { font-size: 17px; line-height: 1.5; color: var(--ink-soft); margin: 0 0 18px; }
+  .linkbtn {
+    background: none; border: 0; color: var(--pink); cursor: pointer;
+    font: 600 15px/1 "Josefin Sans", sans-serif; letter-spacing: .04em;
+    text-decoration: underline; text-underline-offset: 4px; padding: 6px;
+  }
+  @keyframes pop { from { transform: scale(.96); opacity: 0; } to { transform: none; opacity: 1; } }
+
+  /* ---------- Bottom: fireworks + gingham + photo ---------- */
+  .bottom {
+    position: relative;
+    height: 330px;
+    margin: 26px -30px 0;
+  }
+  .gingham {
+    position: absolute; inset: 0;
+    clip-path: polygon(100% 18%, 100% 100%, 22% 100%);
+    background-color: #fbeef0;
+    background-image:
+      linear-gradient(90deg, rgba(240, 160, 175, .38) 50%, transparent 50%),
+      linear-gradient(rgba(240, 160, 175, .38) 50%, transparent 50%);
+    background-size: 44px 44px;
+  }
+  .stripe {
+    position: absolute; inset: 0;
+    clip-path: polygon(100% 15.5%, 100% 18%, 22% 100%, 18.6% 100%);
+    background: var(--orange);
+  }
+  .photo {
+    position: absolute;
+    right: 34px; bottom: 34px;
+    width: 190px; height: 190px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 6px solid var(--cream-2);
+    box-shadow: 0 10px 26px -10px rgba(120, 60, 40, .45);
+  }
+  .fireworks { position: absolute; left: 22px; top: 10px; width: 230px; height: auto; }
+
+  footer {
+    text-align: center; font-size: 13px; color: var(--ink-soft);
+    padding: 18px 0 26px; letter-spacing: .05em; font-weight: 300;
+  }
+
+  @media (max-width: 400px) {
+    .page { padding: 0 22px; }
+    .garland { width: calc(100% + 44px); margin: 0 -22px; }
+    .bottom { margin: 22px -22px 0; height: 290px; }
+    .photo { width: 160px; height: 160px; right: 24px; bottom: 26px; }
+    .fireworks { width: 180px; left: 10px; }
+    .details { font-size: 17px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    * { animation: none !important; transition: none !important; }
+  }
+</style>
+</head>
+<body>
+<main class="page">
+
+  <!-- Hand-drawn style garland: fringe swags, bunting, streamers, star strings, disco ball -->
+  <svg class="garland" viewBox="0 0 560 300" aria-hidden="true">
+    <defs>
+      <filter id="rough" x="-5%" y="-5%" width="110%" height="110%">
+        <feTurbulence type="fractalNoise" baseFrequency="0.035" numOctaves="2" seed="4"/>
+        <feDisplacementMap in="SourceGraphic" scale="3.5"/>
+      </filter>
+      <filter id="wash">
+        <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="2" result="n"/>
+        <feColorMatrix in="n" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 -0.9 1" result="speck"/>
+        <feComposite in="SourceGraphic" in2="speck" operator="in"/>
+      </filter>
+      <g id="star">
+        <path d="M0,-7 L2,-2.2 7,-2.2 3,1 4.5,6.5 0,3.4 -4.5,6.5 -3,1 -7,-2.2 -2,-2.2Z" fill="#f4a03a" stroke="#d9620d" stroke-width=".6"/>
+      </g>
+      <pattern id="fringe" width="4" height="20" patternUnits="userSpaceOnUse">
+        <rect width="2.4" height="20" fill="#e84f9f"/>
+      </pattern>
+      <clipPath id="ballClip"><circle cx="280" cy="88" r="56"/></clipPath>
+    </defs>
+
+    <g filter="url(#rough)">
+      <!-- streamers hanging -->
+      <path d="M14 0 C 34 60, 4 110, 30 170 S 10 250, 34 300" stroke="#c99be0" stroke-width="9" fill="none" stroke-linecap="round" opacity=".75"/>
+      <path d="M46 10 C 70 70, 40 120, 62 180" stroke="#f2d04f" stroke-width="7" fill="none" stroke-linecap="round" opacity=".8"/>
+      <path d="M546 0 C 520 60, 552 120, 528 180 S 548 250, 522 300" stroke="#3f9fb8" stroke-width="9" fill="none" stroke-linecap="round" opacity=".7"/>
+      <path d="M512 12 C 492 70, 520 120, 500 190" stroke="#f4a03a" stroke-width="7" fill="none" stroke-linecap="round" opacity=".8"/>
+      <path d="M200 8 C 214 60, 192 110, 210 150" stroke="#f6b6d1" stroke-width="10" fill="none" stroke-linecap="round" opacity=".85"/>
+      <path d="M370 6 C 352 50, 378 96, 362 140" stroke="#f6b6d1" stroke-width="10" fill="none" stroke-linecap="round" opacity=".85"/>
+
+      <!-- green & blue top ribbons -->
+      <path d="M0 18 C 80 70, 160 64, 236 22" stroke="#9fdc93" stroke-width="13" fill="none" stroke-linecap="round" opacity=".85"/>
+      <path d="M324 22 C 400 66, 480 70, 560 16" stroke="#9fdc93" stroke-width="13" fill="none" stroke-linecap="round" opacity=".85"/>
+      <path d="M20 0 C 110 40, 180 30, 260 4" stroke="#f6b6d1" stroke-width="8" fill="none" stroke-linecap="round" opacity=".9"/>
+      <path d="M300 4 C 380 34, 460 40, 545 0" stroke="#f6b6d1" stroke-width="8" fill="none" stroke-linecap="round" opacity=".9"/>
+
+      <!-- bunting -->
+      <path d="M40 40 C 110 92, 180 90, 240 56" stroke="#a88" stroke-width="1" fill="none"/>
+      <path d="M320 56 C 380 90, 450 92, 520 40" stroke="#a88" stroke-width="1" fill="none"/>
+      <g opacity=".92">
+        <path d="M60 52 l20 10 -16 22z" fill="#8fd48a"/>
+        <path d="M94 68 l22 6 -14 24z" fill="#f4a03a"/>
+        <path d="M132 78 l22 1 -10 25z" fill="#6aa8d8"/>
+        <path d="M172 79 l22 -4 -7 25z" fill="#ee5fae"/>
+        <path d="M210 70 l20 -9 -3 25z" fill="#f2d04f"/>
+        <path d="M330 61 l20 9 -16 22z" fill="#f2d04f"/>
+        <path d="M366 75 l22 4 -12 24z" fill="#ee5fae"/>
+        <path d="M406 80 l22 -1 -9 25z" fill="#6aa8d8"/>
+        <path d="M446 76 l22 -6 -6 24z" fill="#f4a03a"/>
+        <path d="M484 64 l20 -10 -2 24z" fill="#8fd48a"/>
+      </g>
+
+      <!-- pink fringe swags -->
+      <path d="M0 96 C 70 140, 150 140, 226 104 L 226 124 C 150 160, 70 160, 0 116Z" fill="url(#fringe)" opacity=".95"/>
+      <path d="M0 92 C 70 136, 150 136, 226 100" stroke="#e84f9f" stroke-width="7" fill="none" stroke-linecap="round"/>
+      <path d="M334 104 C 410 140, 490 140, 560 96 L 560 116 C 490 160, 410 160, 334 124Z" fill="url(#fringe)" opacity=".95"/>
+      <path d="M334 100 C 410 136, 490 136, 560 92" stroke="#e84f9f" stroke-width="7" fill="none" stroke-linecap="round"/>
+
+      <!-- disco ball -->
+      <line x1="280" y1="0" x2="280" y2="32" stroke="#555" stroke-width="2"/>
+      <rect x="273" y="26" width="14" height="8" rx="2" fill="#666"/>
+      <circle cx="280" cy="88" r="56" fill="#fbe3ee"/>
+      <g clip-path="url(#ballClip)">
+        <g fill="#e84f9f" opacity=".85">
+          <rect x="244" y="44" width="15" height="13"/><rect x="274" y="44" width="15" height="13"/>
+          <rect x="230" y="62" width="14" height="14"/><rect x="259" y="62" width="15" height="14"/><rect x="304" y="62" width="15" height="14"/>
+          <rect x="244" y="80" width="15" height="15"/><rect x="289" y="80" width="15" height="15"/><rect x="319" y="80" width="14" height="15"/>
+          <rect x="230" y="99" width="14" height="14"/><rect x="274" y="99" width="15" height="14"/><rect x="304" y="99" width="15" height="14"/>
+          <rect x="259" y="117" width="15" height="13"/><rect x="289" y="117" width="15" height="13"/>
+        </g>
+        <g fill="#f9c9df">
+          <rect x="259" y="44" width="15" height="13"/><rect x="289" y="62" width="15" height="14"/><rect x="259" y="80" width="15" height="15"/><rect x="244" y="117" width="15" height="13"/>
+        </g>
+        <g fill="#fff" opacity=".9">
+          <rect x="289" y="44" width="15" height="13"/><rect x="274" y="80" width="15" height="15"/><rect x="259" y="99" width="15" height="14"/>
+        </g>
+        <g stroke="#9b5a78" stroke-width="1" fill="none" opacity=".7">
+          <path d="M224 57 H336 M224 76 H336 M224 95 H336 M224 113 H336"/>
+          <path d="M244 30 Q230 88 244 146 M259 30 Q252 88 259 146 M274 30 V146 M289 30 V146 M304 30 Q311 88 304 146 M319 30 Q333 88 319 146"/>
+        </g>
+      </g>
+      <circle cx="280" cy="88" r="56" fill="none" stroke="#9b5a78" stroke-width="1.6"/>
+      <path d="M252 56 q8 -8 18 -10" stroke="#fff" stroke-width="4" stroke-linecap="round" fill="none" opacity=".9"/>
+    </g>
+
+    <!-- star strings -->
+    <g>
+      <path d="M78 150 C 66 190, 74 240, 60 290" stroke="#d9a07a" stroke-width="1" stroke-dasharray="1 7" stroke-linecap="round" fill="none"/>
+      <path d="M482 150 C 494 190, 486 240, 500 290" stroke="#d9a07a" stroke-width="1" stroke-dasharray="1 7" stroke-linecap="round" fill="none"/>
+      <use href="#star" x="76" y="164"/><use href="#star" x="70" y="206"/><use href="#star" x="68" y="248"/><use href="#star" x="61" y="288"/>
+      <use href="#star" x="484" y="164"/><use href="#star" x="490" y="206"/><use href="#star" x="492" y="248"/><use href="#star" x="499" y="288"/>
+      <use href="#star" x="168" y="22" transform="rotate(10 168 22)"/><use href="#star" x="402" y="24"/>
+      <use href="#star" x="246" y="160" transform="scale(.8) translate(60 40)"/>
+    </g>
+  </svg>
+
+  <section class="hero">
+    <h1 class="name">Júlia</h1>
+    <p class="age">1 ANINHO</p>
+
+    <ul class="details">
+      <li class="when">
+        <span>
+          <svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="12" fill="none" stroke="#6aa8d8" stroke-width="1.8"/><path d="M16 9v7l5 3" fill="none" stroke="#6aa8d8" stroke-width="1.8" stroke-linecap="round"/></svg>
+          <span><strong>13h00</strong></span>
+        </span>
+        <span>
+          <svg viewBox="0 0 32 32" aria-hidden="true"><rect x="5" y="7" width="22" height="20" rx="3" fill="none" stroke="#6aa8d8" stroke-width="1.8"/><path d="M5 13h22M11 4v6M21 4v6" stroke="#6aa8d8" stroke-width="1.8" stroke-linecap="round"/><g fill="#6aa8d8" opacity=".7"><rect x="9" y="16" width="4" height="3" rx=".6"/><rect x="14" y="16" width="4" height="3" rx=".6"/><rect x="19" y="16" width="4" height="3" rx=".6"/><rect x="9" y="21" width="4" height="3" rx=".6"/><rect x="14" y="21" width="4" height="3" rx=".6"/></g></svg>
+          <span><strong>16/01/2027</strong><br>(sábado)</span>
+        </span>
+      </li>
+      <li>
+        <svg viewBox="0 0 32 32" aria-hidden="true"><path d="M4 10l7-3 10 3 7-3v16l-7 3-10-3-7 3z" fill="none" stroke="#6aa8d8" stroke-width="1.6" stroke-linejoin="round"/><path d="M20 4.5a4 4 0 0 1 4 4c0 3-4 7-4 7s-4-4-4-7a4 4 0 0 1 4-4z" fill="#fff" stroke="#6aa8d8" stroke-width="1.6"/><circle cx="20" cy="8.5" r="1.3" fill="#6aa8d8"/></svg>
+        <span>Condomínio Alphaville Granja Viana<br>Dentro do salão de festas (clube)<br>Carapicuíba, SP (06745-710)</span>
+      </li>
+    </ul>
+
+    <div class="quick-links">
+      <a class="chip" id="mapsLink" target="_blank" rel="noopener">📍 Ver no mapa</a>
+      <a class="chip" id="calLink" target="_blank" rel="noopener">🗓️ Salvar na agenda</a>
+    </div>
+  </section>
+
+  <section class="card" aria-live="polite">
+    <form id="rsvp" novalidate>
+      <h2>Confirme sua presença</h2>
+      <p class="sub">Vai ser uma alegria ter você com a gente! 💛</p>
+
+      <div class="field">
+        <label for="nome">Seu nome (ou da família)</label>
+        <input type="text" id="nome" name="nome" maxlength="80" autocomplete="name" placeholder="Ex.: Família Souza" required>
+      </div>
+
+      <div class="field">
+        <span class="legend" id="vaiLabel">Você vem?</span>
+        <div class="choice" role="radiogroup" aria-labelledby="vaiLabel">
+          <input type="radio" name="vai" id="vaiSim" value="Sim" checked>
+          <label class="yes" for="vaiSim">🎉 Vou sim!</label>
+          <input type="radio" name="vai" id="vaiNao" value="Não">
+          <label class="no" for="vaiNao">😢 Não vou poder</label>
+        </div>
+      </div>
+
+      <div class="field" id="countsField">
+        <span class="legend">Quantas pessoas?</span>
+        <div class="counts">
+          <div>
+            <span class="small-label" id="adultosLabel">Adultos</span>
+            <div class="stepper" data-name="adultos" data-min="1" data-value="1" aria-labelledby="adultosLabel">
+              <button type="button" data-step="-1" aria-label="Menos adultos">−</button>
+              <output aria-live="polite">1</output>
+              <button type="button" data-step="1" aria-label="Mais adultos">+</button>
+            </div>
+          </div>
+          <div>
+            <span class="small-label" id="criancasLabel">Crianças</span>
+            <div class="stepper" data-name="criancas" data-min="0" data-value="0" aria-labelledby="criancasLabel">
+              <button type="button" data-step="-1" aria-label="Menos crianças">−</button>
+              <output aria-live="polite">0</output>
+              <button type="button" data-step="1" aria-label="Mais crianças">+</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="telefone">WhatsApp <span class="optional">(opcional)</span></label>
+        <input type="tel" id="telefone" name="telefone" maxlength="30" autocomplete="tel" inputmode="tel" placeholder="(11) 90000-0000">
+      </div>
+
+      <div class="field">
+        <label for="mensagem">Recadinho para a Júlia <span class="optional">(opcional)</span></label>
+        <textarea id="mensagem" name="mensagem" maxlength="500" placeholder="Deixe uma mensagem carinhosa…"></textarea>
+      </div>
+
+      <div class="hp" aria-hidden="true">
+        <label for="website">Não preencha</label>
+        <input type="text" id="website" name="website" tabindex="-1" autocomplete="off">
+      </div>
+
+      <button class="submit" type="submit" id="submitBtn">Confirmar presença</button>
+      <div class="error" id="error" role="alert"></div>
+    </form>
+
+    <div class="thanks" id="thanks">
+      <div class="big" id="thanksEmoji">🥳</div>
+      <h2 id="thanksTitle">Presença confirmada!</h2>
+      <p id="thanksText">Obrigado! Te esperamos no dia 16/01 às 13h00.</p>
+      <button class="linkbtn" type="button" id="again">Confirmar outra pessoa ou família</button>
+    </div>
+  </section>
+
+  <div class="bottom" aria-hidden="true">
+    <svg class="fireworks" viewBox="0 0 230 260">
+      <g stroke-linecap="round" stroke-width="3" fill="none" opacity=".85">
+        <g transform="translate(70 70)" stroke="#f2d04f">
+          <path d="M0 -14V-44M10 -10L31 -31M14 0H44M10 10L31 31M0 14V44M-10 10L-31 31M-14 0H-44M-10 -10L-31 -31"/>
+          <g stroke="#8fd48a"><path d="M5 -22L12 -38M22 5L38 12M-5 22L-12 38M-22 -5L-38 -12"/></g>
+        </g>
+        <g transform="translate(160 120)" stroke="#6aa8d8">
+          <path d="M0 -12V-48M9 -9L34 -34M12 0H48M9 9L34 34M0 12V48M-9 9L-34 34M-12 0H-48M-9 -9L-34 -34"/>
+          <g stroke="#3f9fb8"><path d="M5 -20L13 -42M20 5L42 13M-5 20L-13 42M-20 -5L-42 -13"/></g>
+        </g>
+        <g transform="translate(80 200)" stroke="#f08a8a">
+          <path d="M0 -10V-36M8 -8L26 -26M10 0H36M8 8L26 26M0 10V36M-8 8L-26 26M-10 0H-36M-8 -8L-26 -26"/>
+          <g stroke="#f4a03a"><path d="M4 -16L10 -30M16 4L30 10M-4 16L-10 30M-16 -4L-30 -10"/></g>
+        </g>
+      </g>
+    </svg>
+    <div class="gingham"></div>
+    <div class="stripe"></div>
+    <img class="photo" src="julia.jpg" alt="" width="190" height="190">
+  </div>
+
+  <footer>Com carinho, família da Júlia 💗</footer>
+</main>
+
+<script>
+  // ⬇️ Paste the Web app URL from Apps Script (Deploy → New deployment → Web app) here:
+  const SCRIPT_URL = 'PASTE_YOUR_APPS_SCRIPT_URL_HERE';
+
+  const EVENT = {
+    title: 'Aniversário da Júlia – 1 aninho 🎉',
+    // 16/01/2027 13:00–17:00 in São Paulo (UTC-3)
+    start: '20270116T160000Z',
+    end: '20270116T200000Z',
+    location: 'Condomínio Alphaville Granja Viana – Salão de festas (clube), Carapicuíba, SP, 06745-710',
+  };
+
+  const $ = (id) => document.getElementById(id);
+  const form = $('rsvp');
+  const thanks = $('thanks');
+  const errorBox = $('error');
+  const submitBtn = $('submitBtn');
+  const countsField = $('countsField');
+
+  // Quick links
+  $('mapsLink').href = 'https://www.google.com/maps/search/?api=1&query=' +
+    encodeURIComponent('Alphaville Granja Viana, Carapicuíba - SP, 06745-710');
+  $('calLink').href = 'https://calendar.google.com/calendar/render?action=TEMPLATE' +
+    '&text=' + encodeURIComponent(EVENT.title) +
+    '&dates=' + EVENT.start + '/' + EVENT.end +
+    '&location=' + encodeURIComponent(EVENT.location) +
+    '&details=' + encodeURIComponent('Festa de 1 aninho da Júlia 💗');
+
+  // Steppers
+  const MAX_PEOPLE = 20;
+  function setStepper(el, value) {
+    const min = Number(el.dataset.min);
+    const v = Math.max(min, Math.min(MAX_PEOPLE, value));
+    el.dataset.value = String(v);
+    el.querySelector('output').textContent = v;
+    el.querySelector('[data-step="-1"]').disabled = v <= min;
+    el.querySelector('[data-step="1"]').disabled = v >= MAX_PEOPLE;
+  }
+  const steppers = document.querySelectorAll('.stepper');
+  steppers.forEach((el) => {
+    setStepper(el, Number(el.dataset.value));
+    el.addEventListener('click', (e) => {
+      const btn = e.target.closest('button[data-step]');
+      if (!btn) return;
+      setStepper(el, Number(el.dataset.value) + Number(btn.dataset.step));
+    });
+  });
+  const stepperValue = (name) => Number(document.querySelector('.stepper[data-name="' + name + '"]').dataset.value);
+
+  // Hide headcount when not attending
+  function syncAttending() {
+    const going = form.vai.value === 'Sim';
+    countsField.style.display = going ? '' : 'none';
+    submitBtn.textContent = going ? 'Confirmar presença' : 'Enviar resposta';
+  }
+  form.querySelectorAll('input[name="vai"]').forEach((r) => r.addEventListener('change', syncAttending));
+  syncAttending();
+
+  function showError(msg) {
+    errorBox.textContent = msg;
+    errorBox.classList.add('show');
+  }
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    errorBox.classList.remove('show');
+
+    const nome = form.nome.value.trim();
+    if (!nome) {
+      showError('Por favor, escreva seu nome 🙂');
+      form.nome.focus();
+      return;
+    }
+    if (!SCRIPT_URL || SCRIPT_URL.indexOf('https://script.google.com/') !== 0) {
+      showError('O formulário ainda não está conectado à planilha. Avise os pais da Júlia, por favor!');
+      return;
+    }
+
+    const going = form.vai.value === 'Sim';
+    const payload = {
+      nome,
+      vai: going ? 'Sim' : 'Não',
+      adultos: going ? stepperValue('adultos') : 0,
+      criancas: going ? stepperValue('criancas') : 0,
+      telefone: form.telefone.value.trim(),
+      mensagem: form.mensagem.value.trim(),
+      website: form.website.value,
+    };
+
+    submitBtn.disabled = true;
+    const label = submitBtn.textContent;
+    submitBtn.textContent = 'Enviando…';
+
+    try {
+      // text/plain keeps this a "simple" request, so Apps Script needs no CORS preflight.
+      const res = await fetch(SCRIPT_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify(payload),
+      });
+      const data = await res.json();
+      if (!data.ok) throw new Error(data.error || 'erro');
+      showThanks(payload);
+    } catch (err) {
+      showError('Não conseguimos enviar agora. Verifique sua internet e tente de novo — se continuar, mande uma mensagem para os pais da Júlia.');
+    } finally {
+      submitBtn.disabled = false;
+      submitBtn.textContent = label;
+    }
+  });
+
+  function showThanks(p) {
+    const first = /^fam[ií]lia\b/i.test(p.nome) ? p.nome : p.nome.split(' ')[0];
+    if (p.vai === 'Sim') {
+      const total = p.adultos + p.criancas;
+      $('thanksEmoji').textContent = '🥳';
+      $('thanksTitle').textContent = 'Presença confirmada!';
+      $('thanksText').textContent = 'Obrigado, ' + first + '! ' +
+        (total === 1 ? '1 pessoa confirmada.' : total + ' pessoas confirmadas.') +
+        ' Te esperamos no sábado, 16/01, às 13h00.';
+    } else {
+      $('thanksEmoji').textContent = '💗';
+      $('thanksTitle').textContent = 'Obrigado por avisar!';
+      $('thanksText').textContent = 'Que pena, ' + first + '! Vamos sentir sua falta. Obrigado pelo carinho.';
+    }
+    form.style.display = 'none';
+    thanks.classList.add('show');
+    thanks.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+
+  $('again').addEventListener('click', () => {
+    form.reset();
+    steppers.forEach((el) => setStepper(el, Number(el.dataset.min)));
+    syncAttending();
+    thanks.classList.remove('show');
+    form.style.display = '';
+    form.nome.focus();
+  });
+</script>
+</body>
+</html>
