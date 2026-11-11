@@ -71,6 +71,32 @@
 
   /* ---------- Hero ---------- */
   .hero { text-align: center; margin-top: -18px; position: relative; z-index: 1; }
+  .hero-photo {
+    display: block;
+    width: 150px; height: 150px;
+    margin: -96px auto 14px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 6px solid var(--cream-2);
+    outline: 3px solid var(--pink-soft);
+    box-shadow: 0 10px 24px -10px rgba(120, 60, 40, .45);
+    position: relative;
+  }
+  .notice {
+    display: flex; gap: 12px; align-items: center;
+    max-width: 400px;
+    margin: 22px auto 0;
+    padding: 13px 16px 11px;
+    border-radius: 14px;
+    background: #fff4e8;
+    border: 1.5px dashed #f4b27a;
+    text-align: left;
+    font-size: 16px;
+    line-height: 1.4;
+    letter-spacing: .02em;
+  }
+  .notice .ico { font-size: 26px; line-height: 1; }
+  .notice strong { font-weight: 600; color: var(--orange-dark); }
   .name {
     font-family: "Fredoka", sans-serif;
     font-weight: 700;
@@ -307,6 +333,7 @@
     .photo { width: 160px; height: 160px; right: 24px; bottom: 26px; }
     .fireworks { width: 180px; left: 10px; }
     .details { font-size: 17px; }
+    .hero-photo { width: 128px; height: 128px; margin-top: -78px; }
   }
   @media (prefers-reduced-motion: reduce) {
     * { animation: none !important; transition: none !important; }
@@ -413,6 +440,7 @@
   </svg>
 
   <section class="hero">
+    <img class="hero-photo" src="julia.jpg" alt="Júlia" width="150" height="150">
     <h1 class="name">Júlia</h1>
     <p class="age">1 ANINHO</p>
 
@@ -432,6 +460,11 @@
         <span>Condomínio Alphaville Granja Viana<br>Dentro do salão de festas (clube)<br>Carapicuíba, SP (06745-710)</span>
       </li>
     </ul>
+
+    <div class="notice">
+      <span class="ico" aria-hidden="true">🍻</span>
+      <span>Quem quiser beber <strong>bebida alcoólica</strong>, por favor traga a sua!</span>
+    </div>
 
     <div class="quick-links">
       <a class="chip" id="mapsLink" target="_blank" rel="noopener">📍 Ver no mapa</a>
@@ -652,7 +685,7 @@
       $('thanksTitle').textContent = 'Presença confirmada!';
       $('thanksText').textContent = 'Obrigado, ' + first + '! ' +
         (total === 1 ? '1 pessoa confirmada.' : total + ' pessoas confirmadas.') +
-        ' Te esperamos no sábado, 16/01, às 13h00.';
+        ' Te esperamos no sábado, 16/01, às 13h00. 🍻 Se quiser bebida alcoólica, lembre de trazer a sua!';
     } else {
       $('thanksEmoji').textContent = '💗';
       $('thanksTitle').textContent = 'Obrigado por avisar!';
