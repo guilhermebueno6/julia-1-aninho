@@ -343,6 +343,39 @@
     padding: 18px 0 26px; letter-spacing: .05em; font-weight: 300;
   }
 
+  .info { text-align: center; position: relative; z-index: 1; }
+
+  /* ---------- Desktop: wider page, info and form side by side ---------- */
+  @media (min-width: 960px) {
+    .page { max-width: 1080px; padding: 0 56px; }
+    .page::before { left: 14px; }
+    .page::after { right: 14px; }
+    .garland { width: 780px; max-width: 100%; margin: 0 auto; }
+    .collage { margin-top: -120px; }
+    .collage .c-outer { width: 100px; height: 100px; }
+    .collage .c-mid   { width: 128px; height: 128px; margin: 0 -22px; }
+    .collage .c-main  { width: 170px; height: 170px; }
+    .name { font-size: 132px; }
+    .age { font-size: 30px; }
+    .content {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 56px;
+      align-items: start;
+      margin-top: 34px;
+    }
+    .info { padding-top: 34px; }
+    .info .details { margin-top: 0; font-size: 22px; max-width: none; gap: 20px; }
+    .info .notice { margin-top: 30px; font-size: 17px; }
+    .info .quick-links { margin-top: 26px; }
+    .info .notice { max-width: none; }
+    .info .quick-links { justify-content: flex-start; }
+    .card { margin-top: 0; padding: 32px 30px 28px; }
+    .bottom { margin: 34px -56px 0; height: 380px; }
+    .photo { width: 230px; height: 230px; right: 80px; bottom: 40px; }
+    .fireworks { width: 280px; left: 70px; }
+  }
+
   @media (max-width: 400px) {
     .page { padding: 0 22px; }
     .garland { width: calc(100% + 44px); margin: 0 -22px; }
@@ -469,7 +502,10 @@
     </div>
     <h1 class="name">Júlia</h1>
     <p class="age">1 ANINHO</p>
+  </section>
 
+  <div class="content">
+  <section class="info">
     <ul class="details">
       <li class="when">
         <span>
@@ -566,6 +602,7 @@
       <button class="linkbtn" type="button" id="again">Confirmar outra pessoa ou família</button>
     </div>
   </section>
+  </div>
 
   <div class="bottom" aria-hidden="true">
     <svg class="fireworks" viewBox="0 0 230 260">
