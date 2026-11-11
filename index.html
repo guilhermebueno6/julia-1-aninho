@@ -71,17 +71,34 @@
 
   /* ---------- Hero ---------- */
   .hero { text-align: center; margin-top: -18px; position: relative; z-index: 1; }
-  .hero-photo {
+  /* Collage of face close-ups, same style as the bottom photo */
+  .collage {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: -100px auto 10px;
+    position: relative;
+    padding: 0 4px;
+  }
+  .collage img {
     display: block;
-    width: 150px; height: 150px;
-    margin: -96px auto 14px;
     border-radius: 50%;
     object-fit: cover;
-    border: 6px solid var(--cream-2);
+    border: 5px solid var(--cream-2);
     outline: 3px solid var(--pink-soft);
-    box-shadow: 0 10px 24px -10px rgba(120, 60, 40, .45);
+    box-shadow: 0 10px 22px -10px rgba(120, 60, 40, .5);
     position: relative;
+    flex-shrink: 0;
+    transition: transform .2s;
   }
+  .collage img:hover { transform: scale(1.06) rotate(0deg) !important; z-index: 5; }
+  .collage .c-outer { width: 82px; height: 82px; z-index: 1; }
+  .collage .c-mid   { width: 104px; height: 104px; z-index: 2; margin: 0 -18px; }
+  .collage .c-main  { width: 140px; height: 140px; z-index: 3; }
+  .collage .c1 { transform: translateY(18px) rotate(-8deg); margin-right: -4px; }
+  .collage .c2 { transform: translateY(-6px) rotate(-4deg); }
+  .collage .c4 { transform: translateY(-6px) rotate(4deg); }
+  .collage .c5 { transform: translateY(18px) rotate(8deg); margin-left: -4px; }
   .notice {
     display: flex; gap: 12px; align-items: center;
     max-width: 400px;
@@ -333,7 +350,10 @@
     .photo { width: 160px; height: 160px; right: 24px; bottom: 26px; }
     .fireworks { width: 180px; left: 10px; }
     .details { font-size: 17px; }
-    .hero-photo { width: 128px; height: 128px; margin-top: -78px; }
+    .collage { margin-top: -84px; }
+    .collage .c-outer { width: 74px; height: 74px; border-width: 4px; }
+    .collage .c-mid   { width: 88px; height: 88px; border-width: 4px; margin: 0 -18px; }
+    .collage .c-main  { width: 108px; height: 108px; border-width: 4px; }
   }
   @media (prefers-reduced-motion: reduce) {
     * { animation: none !important; transition: none !important; }
@@ -440,7 +460,13 @@
   </svg>
 
   <section class="hero">
-    <img class="hero-photo" src="julia.jpg" alt="Júlia" width="150" height="150">
+    <div class="collage" aria-label="Fotos da Júlia">
+      <img class="c-outer c1" src="fotos/unicornio.jpg" alt="Júlia de unicórnio">
+      <img class="c-mid c2" src="fotos/laco-rosa.jpg" alt="Júlia de laço rosa">
+      <img class="c-main c3" src="fotos/minnie.jpg" alt="Júlia fazendo careta de laço">
+      <img class="c-mid c4" src="fotos/pao.jpg" alt="Júlia comendo pão">
+      <img class="c-outer c5" src="fotos/bravinha.jpg" alt="Júlia bravinha">
+    </div>
     <h1 class="name">Júlia</h1>
     <p class="age">1 ANINHO</p>
 
